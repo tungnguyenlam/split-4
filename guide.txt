@@ -1,0 +1,55 @@
+Author: nanachi
+Date: March 25, 2026
+---
+
+Hello! You're probably on the USTH mainframe to do some heavy compute.
+Depending what kind of heavy compute you want to do, you may need to
+download a lot of data onto this machine.
+
+I'm here to give you a tip on how to speed things up by _600%_
+
+(at least in my experience downloading files from PhysioNet)
+
+Here's what's worked for me:
+
+I needed to download a lot of .dicom files from PhysioNet. Typically, I
+would've used the standard `wget` command. It looks something
+like this:
+
+$ wget --user username --ask-password https://physionet.org/<DATASET>
+
+This runs sequentially, and the speed is around 100KB/s. This would've
+taken me 3 weeks to download! I ain't got all that time when the thesis
+time limit is 12 weeks!!!
+
+Obviously, I sought out a way to download these medium size files (~10MB)
+**concurrently**...
+
+>>> ENTER ARIA2C <<<
+
+First, use wget to obtain the SHA256SUM file. Then, use awk to get all
+file paths from the SHA256SUM file and save them in a text file.
+
+Then we can use the text file as input for aria2c to download all
+those files concurrently as following:
+
+$ aria2c -i aria2_input.txt \
+       --http-user='username' \
+       --http-passwd='password' \
+       --user-agent="Wget/1.21.4" \
+       --min-split-size=1M \
+       -j 16 \
+       -x 1 \
+       -s 1 \
+       --connect-timeout=60 \
+       --max-connection-per-server=16 \
+       -c
+
+For even faster download, you can consider splitting the input
+file in half and download from 2 machines (they should be on
+separate network. I believe PhysioNet limits speed by IP address)
+
+At the end, the total time it took to download the dataset was
+about 3 days. (3 weeks -> 3 days)
+
+Happy hacking!

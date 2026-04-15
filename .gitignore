@@ -1,0 +1,8 @@
+# Downloaded dataset
+files/
+
+# Generated aria2c input files
+aria2_input_*.txt
+
+# Re-download helpers
+missing_files.txt
