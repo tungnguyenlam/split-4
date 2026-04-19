@@ -1,0 +1,13 @@
+[2026-04-19 19:23:27] Starting split of SHA256SUMS.txt ...
+[2026-04-19 19:23:27] Created SHA256SUMS_meta.txt (3 lines)
+[2026-04-19 19:23:27] Created SHA256SUMS_p10.txt (36681 lines)
+[2026-04-19 19:23:27] Created SHA256SUMS_p11.txt (38535 lines)
+[2026-04-19 19:23:27] Created SHA256SUMS_p12.txt (37197 lines)
+[2026-04-19 19:23:27] Created SHA256SUMS_p13.txt (37857 lines)
+[2026-04-19 19:23:27] Created SHA256SUMS_p14.txt (37468 lines)
+[2026-04-19 19:23:27] Created SHA256SUMS_p15.txt (38980 lines)
+[2026-04-19 19:23:27] Created SHA256SUMS_p16.txt (37098 lines)
+[2026-04-19 19:23:27] Created SHA256SUMS_p17.txt (37688 lines)
+[2026-04-19 19:23:27] Created SHA256SUMS_p18.txt (37958 lines)
+[2026-04-19 19:23:27] Created SHA256SUMS_p19.txt (37648 lines)
+[2026-04-19 19:23:27] Split complete. Total time: 0:00:00.300045
