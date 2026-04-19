@@ -1,0 +1,5 @@
+[2026-04-19 19:28:40] Execution started with file: SHA256SUMS_meta.txt
+[2026-04-19 19:28:40] Target directory: .
+[2026-04-19 19:28:40] Generating aria2c input file: aria2_input_SHA256SUMS_meta.txt ...
+[2026-04-19 19:28:40] aria2c not found; falling back to curl. This will be much slower.
+[2026-04-19 19:28:41] Curl error: 56

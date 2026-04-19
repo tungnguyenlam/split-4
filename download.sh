@@ -60,12 +60,13 @@ awk -v base="$BASE_URL" '{
     print base "/" path
     print "  dir=" dir
 }' "$SHA256_FILE" > "$ARIA2_INPUT"
+ARIA2_INPUT_ABS="$(cd "$(dirname "$ARIA2_INPUT")" && pwd)/$(basename "$ARIA2_INPUT")"
 
 download_with_aria2c() {
     log "Starting download with aria2c..."
     (
         cd "$DOWNLOAD_DIR"
-        aria2c -i "../$ARIA2_INPUT" \
+        aria2c -i "$ARIA2_INPUT_ABS" \
             --http-user="$PHYSIONET_USER" \
             --http-passwd="$PHYSIONET_PASS" \
             --user-agent="$USER_AGENT" \
@@ -109,7 +110,7 @@ download_with_curl() {
                     fi
                     ;;
             esac
-        done < "../$ARIA2_INPUT"
+        done < "$ARIA2_INPUT_ABS"
     )
 }
 
