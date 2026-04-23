@@ -6,3 +6,5 @@ aria2_input_*.txt
 
 # Re-download helpers
 missing_files.txt
+
+*.log*
