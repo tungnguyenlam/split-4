@@ -13,7 +13,7 @@ USER_AGENT="Wget/1.21.4"
 BASE_URL="https://physionet.org/files/mimic-cxr-jpg/2.1.0"
 
 usage() {
-    echo "Usage: $0 --user-name <name> --password <pass> --file <checksum_file> [--dir <download_dir>]"
+    echo "Usage: $0 --user-name <name> --file <checksum_file> [--dir <download_dir>]"
     exit 1
 }
 
@@ -21,15 +21,21 @@ usage() {
 while [[ $# -gt 0 ]]; do
     case $1 in
         --user-name) PHYSIONET_USER="$2"; shift 2 ;;
-        --password)  PHYSIONET_PASS="$2"; shift 2 ;;
         --file)      SHA256_FILE="$2"; shift 2 ;;
         --dir)       DOWNLOAD_DIR="$2"; shift 2 ;;
         *) usage ;;
     esac
 done
 
-if [[ -z "$PHYSIONET_USER" || -z "$PHYSIONET_PASS" || -z "$SHA256_FILE" ]]; then
+if [[ -z "$PHYSIONET_USER" || -z "$SHA256_FILE" ]]; then
     usage
+fi
+
+read -rsp "Enter PhysioNet password for $PHYSIONET_USER: " PHYSIONET_PASS
+echo
+if [[ -z "$PHYSIONET_PASS" ]]; then
+    echo "Error: Password cannot be empty."
+    exit 1
 fi
 
 if [[ ! -f "$SHA256_FILE" ]]; then
