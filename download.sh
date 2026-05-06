@@ -57,6 +57,7 @@ log "Execution started with file: $SHA256_FILE"
 log "Target directory: $DOWNLOAD_DIR"
 
 ARIA2_INPUT="aria2_input_$(basename "$SHA256_FILE" .txt).txt"
+SESSION_FILE="aria2_session_$(basename "$SHA256_FILE" .txt).txt"
 mkdir -p "$DOWNLOAD_DIR"
 
 log "Generating aria2c input file: $ARIA2_INPUT ..."
@@ -67,12 +68,23 @@ awk -v base="$BASE_URL" '{
     print "  dir=" dir
 }' "$SHA256_FILE" > "$ARIA2_INPUT"
 ARIA2_INPUT_ABS="$(cd "$(dirname "$ARIA2_INPUT")" && pwd)/$(basename "$ARIA2_INPUT")"
+SESSION_FILE_ABS="$(cd "$(dirname "$SESSION_FILE")" && pwd)/$(basename "$SESSION_FILE")"
+
+if [[ -f "$SESSION_FILE" && -s "$SESSION_FILE" ]]; then
+    log "Resuming from session file: $SESSION_FILE ($(grep -c '^http' "$SESSION_FILE") remaining URLs)"
+    EFFECTIVE_INPUT="$SESSION_FILE_ABS"
+else
+    log "No session file found, using full input file."
+    EFFECTIVE_INPUT="$ARIA2_INPUT_ABS"
+fi
 
 download_with_aria2c() {
     log "Starting download with aria2c..."
     (
         cd "$DOWNLOAD_DIR"
-        aria2c -i "$ARIA2_INPUT_ABS" \
+        aria2c -i "$EFFECTIVE_INPUT" \
+            --save-session="$SESSION_FILE_ABS" \
+            --save-session-interval=240 \
             --http-user="$PHYSIONET_USER" \
             --http-passwd="$PHYSIONET_PASS" \
             --user-agent="$USER_AGENT" \

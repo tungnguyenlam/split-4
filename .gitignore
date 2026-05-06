@@ -8,3 +8,5 @@ aria2_input_*.txt
 missing_files.txt
 
 *.log*
+
+aria2_session_*.txt
